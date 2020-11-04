@@ -134,7 +134,7 @@ def merging(gray, th, n, q, L):
                 if homogeneity_check(arr,th):
                     
                     L[j_0][2] = 2* L[j_0][2] 
-                    del L[j_1] , L[j_2] , L[j_3]
+                    L[j_1][2] = L[j_2][2] = L[j_3][2] = 0
                 
                 j = j + 4
             
@@ -146,8 +146,70 @@ def merging(gray, th, n, q, L):
 
     return L
 
+
+def str_item_assignment(s,i,v):
+    l = list(s)
+    l[i] = v
+    return ''.join(l)
+
 def splitting(gray, th, n, q, L):
 
+    j_0s = [conver(k,4,n,q) for k in range(4**q)]
+    
+    while len(j_0s) > 0:
+
+        j_0 = j_0s.pop(0)
+
+        z = int(L[j_0][2])
+    
+        if ( (0 < z) and (z <= 2**(n - q)) ):
+
+            l = q
+
+            while l < n:
+                
+                x = int(L[j_0][0])
+                y = int(L[j_0][1])
+                z = int(L[j_0][2])
+                
+                arr = gray[y:(y+z),x:(x+z)]
+                
+                if not homogeneity_check(arr,th):
+                    
+                    # Multiplication by 4 is a shift to the left in base 4.
+                    # This ensures that you are adding to the correct digit.
+                    # Passing l+1 as the last input shifts back to the right.
+                    # j_1 = conver(k*4+1,4,n,l+1) 
+                    # j_2 = conver(k*4+2,4,n,l+1)
+                    # j_3 = conver(k*4+3,4,n,l+1)
+
+                    # l-1, due to zero based indexing, + 1
+                    j_1 = str_item_assignment(j_0,l,'1') 
+                    j_2 = str_item_assignment(j_0,l,'2')
+                    j_3 = str_item_assignment(j_0,l,'3')
+
+                    L[j_1] = [0,0,0]
+                    L[j_2] = [0,0,0]
+                    L[j_3] = [0,0,0]
+
+                    L[j_0][2] = L[j_0][2] // 2 
+                    L[j_1][2] = L[j_2][2] = L[j_3][2] = L[j_0][2]
+                    
+                    L[j_1][0] = L[j_0][0] + L[j_0][2]
+                    L[j_2][0] = L[j_0][0]
+                    L[j_3][0] = L[j_1][0]
+
+                    L[j_1][1] = L[j_0][1]
+                    L[j_2][1] = L[j_0][1] + L[j_0][2]
+                    L[j_3][1] = L[j_2][1]
+
+                    j_0s + [j_1,j_2,j_3]
+
+                    l = l + 1
+                else:
+                    l = n
+    
+    return L
 
 
 
