@@ -9,6 +9,23 @@ def conver(n,b,m,q):
     b: new base
     m: last level
     q : current level
+
+    Examples:
+        inputs:
+            n = 10
+            b = 4
+            m = 9 
+            q = 4
+        output:
+            002200000
+
+        inputs:
+            n = 58
+            b = 4
+            m = 9 
+            q = 4
+        output:
+            032200000
     
     based on :
     https://stackoverflow.com/questions/47761528
@@ -31,7 +48,12 @@ def find_x(i_4,n,q):
     """
     s = 0
     for k in range(q):
-                
+        # Take the current level digit, which is q - 1 because of zero based indexing.
+        # Take the side of the square at the current level, which is 2**(n-q).
+        # Take the mod 2 of the current level digit and multiply by the current level side.
+        # The result is the x relative to the x of the parent node.
+        # Do the same for the parent node to obtain its x, and so on.
+        # Add up all the x values and you get the x value relative to the image origin (0,0).
         s += (int(i_4[q - 1 - k]) % 2) * ( 2 ** (n - q + k) )
         
     
@@ -45,6 +67,12 @@ def find_y(i_4,n,q):
     """
     s = 0
     for k in range(q):
+        # Take the current level digit, which is q - 1 because of zero based indexing.
+        # Take the side of the square at the current level, which is 2**(n-q).
+        # Divide the current level digit by 2 and multiply by the current level side.
+        # The result is the y relative to the y of the parent node.
+        # Do the same for the parent node to obtain its y, and so on.
+        # Add up all the y values and you get the y value relative to the image origin (0,0).
         s += (int(i_4[q - 1 - k]) // 2) * ( 2 ** (n - q + k) )
 
     
@@ -55,7 +83,7 @@ def find_z(n,q):
     n : last level
     q : current level
     """
-    return 2 ** (n - q)
+    return 2 ** (n - q) # each level distant from the last doubles the side of the square
 
 def homogeneity_check(arr, th):
     
@@ -66,7 +94,7 @@ def split_and_merge_initialization(n, q):
 
     L = dict()
 
-    for i in range(4**q):
+    for i in range(4**q): # 4**q is the total number of nodes in the layer q (root is 0)
         
         i_4 = conver(i,4,n,q)
         
@@ -117,6 +145,11 @@ def merging(gray, th, n, q, L):
         l = l - 1
 
     return L
+
+def splitting(gray, th, n, q, L):
+
+
+
 
 def split_and_merge(gray, th = 256 //3):
 
