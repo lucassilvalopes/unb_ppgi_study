@@ -1,11 +1,11 @@
 # unb_ppgi_study
 
 I am currently working on a python implementation of the split and merge algorithm described in [1] and [2] using the Quadtree and Region Adjacency Graph data structures. 
-I finished implementing the splitting and merging steps, but I did not implement the grouping step yet.
+I finished implementing the splitting and merging steps starting from an arbitrary quadtree level, but I did not implement the grouping of nodes belonging to different levels of the quadtree yet.
 
 Sample output from the current version of the program:
 
-
+![](https://github.com/lucassilvalopes/unb_ppgi_study/blob/main/output.jpg)
 
 # References:
 
