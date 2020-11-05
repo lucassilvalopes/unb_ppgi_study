@@ -226,7 +226,7 @@ def split_and_merge(gray, th):
     return L
 
 
-def display_result(gray, L):
+def visualize_result(gray, L):
     from cv2 import rectangle, namedWindow, imshow, waitKey, destroyAllWindows
     gray_copy = gray.copy()
     gray_copy = np.concatenate([np.expand_dims(gray_copy , axis=2)] * 3, axis = 2)
@@ -239,9 +239,16 @@ def display_result(gray, L):
     waitKey()
     destroyAllWindows()
 
+    return gray_copy
+
 def open_img(img_path):
     from cv2 import imread
     gray = imread(img_path,0)
+    return gray
+
+def save_img(gray):
+    from cv2 import imwrite
+    imwrite("output.jpg", gray)
     return gray
 
 if __name__ == "__main__":
@@ -254,4 +261,6 @@ if __name__ == "__main__":
 
     L = split_and_merge(gray, th)
 
-    display_result(gray, L)
+    gray = visualize_result(gray, L)
+
+    save_img(gray)
