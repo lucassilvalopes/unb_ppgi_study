@@ -209,7 +209,7 @@ def splitting(gray, th, n, q, L):
 
 
 
-def split_and_merge(gray, th = 256 //3):
+def split_and_merge(gray, th):
 
     N = gray.shape[0]
 
@@ -220,6 +220,8 @@ def split_and_merge(gray, th = 256 //3):
     n, q, L = split_and_merge_initialization(n, q)
 
     L = merging(gray, th, n, q, L)
+
+    L = splitting(gray, th, n, q, L)
 
     return L
 
@@ -246,8 +248,10 @@ if __name__ == "__main__":
 
     img_path = sys.argv[1]
 
+    th = int(sys.argv[2])
+
     gray = open_img(img_path)
 
-    L = split_and_merge(gray)
+    L = split_and_merge(gray, th)
 
     display_result(gray, L)
